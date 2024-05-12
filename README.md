@@ -22,6 +22,3 @@
 ## Contributions
 We welcome contributions from the community. If you have suggestions or improvements, please fork this repository and submit a pull request.
 
-## License
-This project is licensed under [Your License Choice]. Please see the LICENSE file for more details.
-
