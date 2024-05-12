@@ -11,9 +11,8 @@ This application, named "Facial Recognition Attendance System", automates studen
 
 ## Technologies Used
 - Python 3.12
-- TensorFlow or PyTorch
+- TensorFlow
 - OpenCV for image processing
-- Flask (if you're using a web server)
 - Additional libraries or technologies used in your project
 
 ## Setup and Installation
