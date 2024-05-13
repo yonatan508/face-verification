@@ -86,9 +86,3 @@ class ClassIDSetupWindow:
 
         else:
             messagebox.showerror("Error", "Please ensure all fields are filled out correctly.")
-
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = ClassIDSetupWindow(root)
-    root.mainloop()
