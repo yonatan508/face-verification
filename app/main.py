@@ -67,9 +67,3 @@ class MainApplication:
                 subprocess.run(['xdg-open', filepath])
         except Exception as e:
             messagebox.showerror("Error", f"Failed to open Excel file: {e}")
-
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = MainApplication(root)
-    root.mainloop()
