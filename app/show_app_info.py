@@ -63,11 +63,3 @@ class ApplicationInstructionManual:
         
         description_frame.rowconfigure(0, weight=1)
         description_frame.columnconfigure(0, weight=1)
-
-
-# Example usage:
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("Main Application")
-    app = ApplicationInstructionManual(root)
-    root.mainloop()
