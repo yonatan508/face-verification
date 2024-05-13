@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter.font import Font
 from tkinter import messagebox, ttk
 
+# Custom modules for different windows and features in the app
 from class_id_setup import ClassIDSetupWindow
 from recognition_window import RecognitionWindow
 from centered_application import ApplicationPosition
@@ -26,13 +27,16 @@ class MainApplication:
         self.setup_ui()
 
     def setup_ui(self):
+        # Configure grid columns
         self.master.grid_columnconfigure(0, weight=1)
         self.master.grid_columnconfigure(1, weight=1)
         self.master.grid_columnconfigure(2, weight=1)
 
+        # Set up the title with styling
         title_font = Font(family="Arial", size=16, weight="bold")
         ttk.Label(self.master, text="Face Recognition Attendance System", font=title_font).grid(row=0, column=0, columnspan=3, pady=20)
 
+        # Buttons for different actions
         info_btn = ttk.Button(self.master, text="About the App", command=self.show_app_info)
         info_btn.grid(row=2, column=0, pady=5, padx=20, sticky='ew')
 
@@ -43,21 +47,24 @@ class MainApplication:
         start_recognition_btn.grid(row=2, column=2, pady=5, padx=20, sticky='ew')
 
     def show_app_info(self):
+        # Display the app information window
         self.master.attributes("-topmost", False)
         ApplicationInstructionManual(self.master)
         self.master.attributes("-topmost", True)
 
-
     def setup_class_id(self):
+        # Open the class ID setup window
         self.master.attributes("-topmost", False)
         ClassIDSetupWindow(self.master)
         self.master.attributes("-topmost", True)
 
     def start_face_recognition(self):
+        # Start the face recognition feature
         self.master.attributes("-topmost", False)
         RecognitionWindow(self.master, self.open_excel_file)
 
     def open_excel_file(self, filepath):
+        # Opens an Excel file using the appropriate system command
         try:
             if platform.system() == 'Windows':
                 os.startfile(filepath)
@@ -67,3 +74,8 @@ class MainApplication:
                 subprocess.run(['xdg-open', filepath])
         except Exception as e:
             messagebox.showerror("Error", f"Failed to open Excel file: {e}")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = MainApplication(root)
+    root.mainloop()
