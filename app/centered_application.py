@@ -32,9 +32,3 @@ class ApplicationPosition:
     def center_window(self):
         """Public method to center the window after a short delay."""
         self.master.after(self.delay, self._update_geometry)
-
-if __name__ == '__main__':
-    root = tk.Tk()
-    app_positioner = ApplicationPosition(root)
-    app_positioner.center_window()
-    root.mainloop()
