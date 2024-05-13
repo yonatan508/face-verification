@@ -4,11 +4,12 @@ from tkinter.font import Font
 from centered_application import ApplicationPosition
 
 class ApplicationInstructionManual:
+    # Static variable for the file that contains the app instructions
     filename = "app description.txt"
 
     def __init__(self, master):
         self.master = master
-        self.top = tk.Toplevel(master)
+        self.top = tk.Toplevel(master)  # Create a top-level window
         self.top.resizable(False, False)
         self.top.title("About the App")
 
@@ -19,6 +20,7 @@ class ApplicationInstructionManual:
         # Set up the user interface
         self.setup_ui()
 
+        # Keep this window on top
         self.top.attributes("-topmost", True)
     
     @property
