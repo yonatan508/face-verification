@@ -78,7 +78,7 @@ class FaceRecognitionManager:
             df[current_date] = False
 
         for person in df.index:
-            df.at[person, current_date] = results.get(person, False)
+            df.at[person, current_date] = results.get(person, '✗')
         
 
         # Save DataFrame to Excel with formatting
