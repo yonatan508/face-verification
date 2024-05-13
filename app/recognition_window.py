@@ -122,10 +122,3 @@ class RecognitionWindow:
         self.master.destroy()
         if self.callback:
             self.callback(self.file_path)
-
-
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = RecognitionWindow(root)
-    root.mainloop()
