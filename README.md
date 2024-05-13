@@ -10,19 +10,22 @@ This application, named "Facial Recognition Attendance System", automates studen
 - **User-Friendly Interface**: Easy-to-use interface for daily operations.
 
 ## Technologies Used
-- Python 3.12
+- Python 3.11
 - TensorFlow
 - OpenCV for image processing
-- Additional libraries or technologies used in your project
+- tkinter for GUI
 
 ## Setup and Installation
 1. Clone the repository:
-  
+
 2. Install the required libraries:
 
 3. Adjust the configurations in `app_config.json` as per your system setup:
 - Set the directory path to your class photos.
 - Specify the path to the Excel file for attendance logging.
+
+## Dataset
+The project utilizes the Face Recognition Dataset available on Kaggle, which can be accessed at [this link](https://www.kaggle.com/datasets/stoicstatic/face-recognition-dataset). This dataset provides a diverse set of face images used to train the face verification model.
 
 ## Usage Instructions
 1. On first launch, set up your class by entering a unique class identifier.
