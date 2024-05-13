@@ -71,10 +71,10 @@ class RecognitionWindow:
             self.anchor_image_path_btn.config(state="readonly")
             self.process_button.config(state="normal")
 
-    def load_attributes(self, class_id):
+    def load_attributes(self):
         # Load configuration specific to the selected class ID
         try:
-            class_config = self.config_manager.get_class_config(str(class_id))
+            class_config = self.config_manager.get_class_config(str(self.class_id))
             self.directory_path, self.file_path = class_config.values()
         except ValueError:
             messagebox.showerror("Configuration Error", "Invalid configuration for the selected class.")
@@ -102,7 +102,8 @@ class RecognitionWindow:
 
         if not file_names:
             messagebox.showerror("FileExistsError", "No image files found in the directory.")
-            return
+            self.config_manager.delete_class_config(self.class_id)
+            
 
         self.df = pd.DataFrame(index=file_names)
 
@@ -111,7 +112,10 @@ class RecognitionWindow:
         self.top.attributes("-topmost", False)
         self.master.attributes("-topmost", False)
 
-        if not self.load_attributes(self.class_var.get()):
+        self.class_id = str(self.class_var.get())
+        print(self.class_id)
+
+        if not self.load_attributes():
             return
 
         try:
@@ -134,5 +138,9 @@ class RecognitionWindow:
 
         # Optionally close the window and run the callback
         self.master.destroy()
-        if self.callback:
-            self.callback(self.file_path)
+        try:
+            if self.callback:
+                self.callback(self.file_path)
+        except PermissionError:
+            messagebox.showerror("PermissionError", "Attendance updated Failed.\n please close the excel file and try again")
+            return
