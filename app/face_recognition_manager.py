@@ -20,19 +20,19 @@ class FaceRecognitionManager:
     def load_known_faces(self):
         """loading and embedding the students' pictures into the known_face variable"""
         for filename in os.listdir(self.directory_path):
-            if filename.lower().endswith(('.jpg', '.jpeg', '.png')):
+            if not filename.lower().endswith(('.jpg', '.jpeg', '.png')): continue
 
-                image_path = os.path.join(self.directory_path, filename)
-                image = cv2.imread(image_path)
-                rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            image_path = os.path.join(self.directory_path, filename)
+            image = cv2.imread(image_path)
+            rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-                try:
-                    encoding = face_recognition.face_encodings(rgb_image)[0]
-                    name = filename.replace("_", " ")[:filename.rindex(".")].strip()
-                    self.known_faces[name] = encoding
+            try:
+                encoding = face_recognition.face_encodings(rgb_image)[0]
+                name = filename.replace("_", " ")[:filename.rindex(".")].strip()
+                self.known_faces[name] = encoding
 
-                except IndexError:
-                    continue
+            except IndexError:
+                continue
 
         
     def compare_faces(self, cropped_faces):
