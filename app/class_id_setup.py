@@ -1,5 +1,6 @@
 import os
 import tkinter as tk
+from functools import partial
 from tkinter import filedialog, messagebox, ttk
 from tkinter.font import Font
 from config_manager import ConfigManager  # Handles configuration settings
@@ -10,7 +11,8 @@ class ClassIDSetupWindow:
     # Default name for the Excel file that stores attendance
     excel_file_name = "class attendance.xlsx"
 
-    def __init__(self, master):
+    def __init__(self, main_app, master):
+        self.main_app = main_app
         self.top = tk.Toplevel(master)  # Create a new top-level window on top of the main application
         self.top.title("Setup Class ID")
 
@@ -21,8 +23,11 @@ class ClassIDSetupWindow:
         self.config_manager = ConfigManager()  # Configuration manager instance assumed to be defined in the config_manager module
 
         self.setup_ui()
-        self.top.attributes('-topmost', True)  # Keep window on top
+        #self.top.attributes('-topmost', True)  # Keep window on top
         self.top.resizable(False, False)  # Disable window resizing
+
+        self.top.protocol("WM_DELETE_WINDOW", partial(self.main_app.rerendering, self.top))
+
 
     def setup_ui(self):
         """Set up the user interface for the Class ID setup window."""
@@ -87,6 +92,6 @@ class ClassIDSetupWindow:
         if class_id and hasattr(self, 'directory') and hasattr(self, 'excel_file_path'):
             self.config_manager.set_class_config(class_id=class_id, directory_path=self.directory, excel_file_path=self.excel_file_path)
             messagebox.showinfo("Success", "Class ID and directory path have been set successfully.")
-            self.top.destroy()
+            self.main_app.rerendering(self.top)
         else:
             messagebox.showerror("Error", "Please ensure all fields are filled out correctly.")
