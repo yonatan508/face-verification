@@ -48,20 +48,22 @@ class MainApplication:
 
     def show_app_info(self):
         # Display the app information window
-        self.master.attributes("-topmost", False)
-        ApplicationInstructionManual(self.master)
-        self.master.attributes("-topmost", True)
+        self.master.withdraw()
+        ApplicationInstructionManual(self, self.master)
 
     def setup_class_id(self):
         # Open the class ID setup window
-        self.master.attributes("-topmost", False)
-        ClassIDSetupWindow(self.master)
-        self.master.attributes("-topmost", True)
+        self.master.withdraw()
+        ClassIDSetupWindow(self, self.master)
 
     def start_face_recognition(self):
         # Start the face recognition feature
-        self.master.attributes("-topmost", False)
+        self.master.withdraw()
         RecognitionWindow(self.master, self.open_excel_file)
+
+    def rerendering(self, top):
+        top.destroy()
+        self.master.deiconify()
 
     def open_excel_file(self, filepath):
         # Opens an Excel file using the appropriate system command
