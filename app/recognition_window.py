@@ -76,6 +76,7 @@ class RecognitionWindow:
         try:
             class_config = self.config_manager.get_class_config(str(self.class_id))
             self.directory_path, self.file_path = class_config.values()
+            print(self.file_path)
         except ValueError:
             messagebox.showerror("Configuration Error", "Invalid configuration for the selected class.")
             return False
@@ -84,13 +85,25 @@ class RecognitionWindow:
 
     def load_file(self):
         # Load or initialize the DataFrame depending on the file's existence
-        if os.path.isfile(self.file_path):
-            self.df = pd.read_excel(self.file_path, index_col=0)
-            # Uniform formatting for column names
-            self.df.columns = pd.to_datetime(self.df.columns).strftime("%Y-%m-%d")
-        else:
+        if not os.path.isfile(self.file_path):
             # Initialize a new DataFrame if file doesn't exist
             self.initialize_dataframe_from_directory()
+            return True
+
+        try:
+            #trying to figure out wheter the excel file is already open or not
+            with open(self.file_path, 'r+b') as _:
+                pass
+        except PermissionError:
+            messagebox.showerror("PermissionError", "Attendance updated Failed.\nplease close the excel file and try again")
+            return False
+    
+        self.df = pd.read_excel(self.file_path, index_col=0)
+        # Uniform formatting for column names
+        self.df.columns = pd.to_datetime(self.df.columns).strftime("%Y-%m-%d")
+
+        return True
+
 
     def initialize_dataframe_from_directory(self):
         # Create a DataFrame using image filenames as index
@@ -113,34 +126,23 @@ class RecognitionWindow:
         self.master.attributes("-topmost", False)
 
         self.class_id = str(self.class_var.get())
-        print(self.class_id)
+        
+        if not self.load_attributes(): return
 
-        if not self.load_attributes():
-            return
-
-        try:
-            self.load_file()
-        except PermissionError:
-            messagebox.showerror("PermissionError", "Attendance updated Failed.\n please close the excel file and try again")
-            return
-
-        if not all([hasattr(self, 'directory_path'), hasattr(self, 'anchor_image_path'), hasattr(self, 'file_path')]):
-            messagebox.showerror("Error", "Please ensure all paths are set.")
-            return
-
+        if not self.load_file(): return
+        
         # Face recognition processing and results handling
         self.face_manager = FaceRecognitionManager(self.directory_path, self.anchor_image_path, self.file_path)
         cropped_faces = self.face_manager.crop_faces()
         results = self.face_manager.compare_faces(cropped_faces)
-        self.face_manager.update_dataframe(results, self.df)
+        self.face_manager.update_dataframe(results, self.df, self.class_id)
+        
         
         messagebox.showinfo("Success", "Attendance updated successfully.")
+        
 
         # Optionally close the window and run the callback
         self.master.destroy()
-        try:
-            if self.callback:
-                self.callback(self.file_path)
-        except PermissionError:
-            messagebox.showerror("PermissionError", "Attendance updated Failed.\n please close the excel file and try again")
-            return
+        if self.callback:
+            self.callback(self.file_path)
+     
