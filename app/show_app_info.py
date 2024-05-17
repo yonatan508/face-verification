@@ -22,11 +22,9 @@ class ApplicationInstructionManual:
 
         # Set up the user interface
         self.setup_ui()
-
         
         self.top.protocol("WM_DELETE_WINDOW", partial(self.main_app.rerendering, self.top))
 
-    
     @property
     def app_instructions(self):
         """Property to load and return the app instructions from the set filename."""
