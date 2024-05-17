@@ -1,13 +1,16 @@
 import tkinter as tk
 from tkinter import ttk
+from functools import partial
 from tkinter.font import Font
 from centered_application import ApplicationPosition
+
 
 class ApplicationInstructionManual:
     # Static variable for the file that contains the app instructions
     filename = "app description.txt"
 
-    def __init__(self, master):
+    def __init__(self, main_app, master):
+        self.main_app = main_app
         self.master = master
         self.top = tk.Toplevel(master)  # Create a top-level window
         self.top.resizable(False, False)
@@ -20,8 +23,9 @@ class ApplicationInstructionManual:
         # Set up the user interface
         self.setup_ui()
 
-        # Keep this window on top
-        self.top.attributes("-topmost", True)
+        
+        self.top.protocol("WM_DELETE_WINDOW", partial(self.main_app.rerendering, self.top))
+
     
     @property
     def app_instructions(self):
@@ -65,3 +69,11 @@ class ApplicationInstructionManual:
         
         description_frame.rowconfigure(0, weight=1)
         description_frame.columnconfigure(0, weight=1)
+
+
+# Example usage:
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Main Application")
+    app = ApplicationInstructionManual(root)
+    root.mainloop()
