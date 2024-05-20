@@ -11,7 +11,6 @@ This application, named "Facial Recognition Attendance System", automates studen
 
 ## Technologies Used
 - Python 3.11
-- TensorFlow
 - OpenCV for image processing
 - tkinter for GUI
 
@@ -38,11 +37,6 @@ The project utilizes the Face Recognition Dataset available on Kaggle, which can
 1. **Capturing the Image**: The teacher uploads a class photo.
 2. **Processing the Image**: The system uses a triplet loss model to process the image and identify faces.
 3. **Comparing and Logging Attendance**: Faces are compared with stored images, and attendance is logged in an Excel file.
-
-## Jupyter Notebook
-- **`face_verification.ipynb`**: This notebook contains the code for the face verification model using triplet loss. To run the notebook:
-1. Open the notebook in Jupyter or another compatible environment.
-2. Follow the instructions within the notebook to train or test the model.
 
 ## Contributions
 We welcome contributions from the community. If you have suggestions or improvements, please fork this repository and submit a pull request.
