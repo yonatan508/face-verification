@@ -1,4 +1,3 @@
-import tkinter as tk
 from screeninfo import get_monitors
 
 class ApplicationPosition:
