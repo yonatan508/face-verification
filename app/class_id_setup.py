@@ -89,9 +89,11 @@ class ClassIDSetupWindow:
         """Validate inputs and save configuration, then close the window if successful."""
         class_id = self.id_entry.get().strip()
 
-        if class_id and hasattr(self, 'directory') and hasattr(self, 'excel_file_path'):
-            self.config_manager.set_class_config(class_id=class_id, directory_path=self.directory, excel_file_path=self.excel_file_path)
-            messagebox.showinfo("Success", "Class ID and directory path have been set successfully.")
-            self.main_app.rerendering(self.top)
-        else:
+        if not all([class_id, hasattr(self, 'directory'), hasattr(self, 'excel_file_path')]):
             messagebox.showerror("Error", "Please ensure all fields are filled out correctly.")
+            return 
+        
+        self.config_manager.set_class_config(class_id=class_id, directory_path=self.directory, excel_file_path=self.excel_file_path)
+        messagebox.showinfo("Success", "Class ID and directory path have been set successfully.")
+        self.main_app.rerendering(self.top)
+        
