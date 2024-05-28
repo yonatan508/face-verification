@@ -87,9 +87,8 @@ class RecognitionWindow:
         # Load or initialize the DataFrame depending on the file's existence
         if not os.path.isfile(self.file_path):
             # Initialize a new DataFrame if file doesn't exist
-            self.initialize_dataframe_from_directory()
-            return True
-
+            return self.initialize_dataframe_from_directory()
+            
         try:
             #trying to figure out wheter the excel file is already open or not
             with open(self.file_path, 'r+b') as _:
@@ -114,11 +113,12 @@ class RecognitionWindow:
         ]
 
         if not file_names:
-            messagebox.showerror("FileExistsError", "No image files found in the directory.")
+            messagebox.showerror("FileExistsError", "the students' pictures folder you have provided is either empty or don't contain any pictures at all")
             self.config_manager.delete_class_config(self.class_id)
+            return False
             
-
         self.df = pd.DataFrame(index=file_names)
+        return True
 
     def process(self):
         # Main processing function
